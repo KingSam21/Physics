@@ -30,4 +30,15 @@ namespace PhysicsEngine
 			CreateShape(PxBoxGeometry(dimensions), density);
 		}
 	};
+
+	// Sphere Class
+	class Sphere : public DynamicActor
+	{
+	public:
+		Sphere(const PxTransform& pose = PxTransform(PxIdentity), FLOAT radius = (1.f), PxReal density = 1.f)
+			: DynamicActor(pose)
+		{
+			CreateShape(PxSphereGeometry(radius), density);
+		}
+	};
 }
