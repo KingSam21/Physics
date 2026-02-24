@@ -6,6 +6,7 @@
 #include "BasicActors.h"
 #include <iostream>
 #include <iomanip>
+#include <vector>
 
 // ==========================
 // Start of Namespace
@@ -30,6 +31,10 @@ namespace PhysicsEngine
 		Box* box6;
 		Box* box7;
 		Sphere* sphere;
+		Brick* brick;
+		Brick2* brick2;
+		vector<Brick*> wall;
+		Box* roof;
 
 	public:
 		//Custom scene initialisation
@@ -42,28 +47,55 @@ namespace PhysicsEngine
 			Add(plane);
 
 			box = new Box(PxTransform(PxVec3(1.5f,3.f,-10.f)));		// PxTransform, sets the inital height of the box.
-			Add(box);
+			//Add(box);
 
 			box2 = new Box(PxTransform(PxVec3(0.f, 0.5f, 0.f)));
-			Add(box2);
+			//Add(box2);
 
 			box3 = new Box(PxTransform(PxVec3(1.f, 0.5f, 0.f)));
-			Add(box3);
+			//Add(box3);
 
 			box4 = new Box(PxTransform(PxVec3(2.f, 0.5f, 0.f)));
-			Add(box4);
+			//Add(box4);
 			
 			box5 = new Box(PxTransform(PxVec3(0.5f, 1.5f, 0.f)));
-			Add(box5);
+			//Add(box5);
 
 			box6 = new Box(PxTransform(PxVec3(1.5f, 1.5f, 0.f)));
-			Add(box6);
+			//Add(box6);
 
 			box7 = new Box(PxTransform(PxVec3(1.f, 2.5f, 0.f)));
-			Add(box7);
+			//Add(box7);
 
-			sphere = new Sphere(PxTransform(PxVec3(1.5f,0.5f,-10.f)));
+			sphere = new Sphere(PxTransform(PxVec3(11.5f,12.f,-20.f)), FLOAT(5.f), PxReal(1.f));
 			Add(sphere);
+
+
+			for (int i = 0; i <= 10; i += 1) {
+				for (int x = 0; x <= 10; x += 1) {
+					brick = new Brick(PxTransform(PxVec3((0.f + i*2 + x%2), (.5f + x), 0.f)));
+					Add(brick);
+				}
+				for (int x = 0; x <= 10; x += 1) {
+					brick2 = new Brick2(PxTransform(PxVec3((-0.5f), (.5f + x), (0.5f + i * 2 + (x+1) % 2))));
+					Add(brick2);
+				}
+				for (int x = 0; x <= 10; x += 1) {
+					brick = new Brick(PxTransform(PxVec3((0.f + i * 2 + (x+1) % 2), (.5f + x), 22.f)));
+					Add(brick);
+				}
+				for (int x = 0; x <= 10; x += 1) {
+					brick2 = new Brick2(PxTransform(PxVec3((21.5f), (.5f + x), (0.5f + i * 2 + x % 2))));
+					Add(brick2);
+				}
+			}
+			
+			for (int i = 0; i <= 13; i += 1) {
+				roof = new Box(PxTransform(PxVec3(10.5f, (11.5f+i), 11.f)), PxVec3((13.f-i),.5f,(13.f-i)), PxReal(.1f));
+				Add(roof);
+			}
+			
+
 		}
 
 		// =======================
@@ -90,7 +122,7 @@ namespace PhysicsEngine
 				cout << "The mass of the object is: " << mass << "kg/m^3" << endl;
 				// Add a force to the object at the start of the simulation
 				//px_actor->addForce(PxVec3(0.f, 0.f, 1000.f));
-				px_actorS->addForce(PxVec3(0.f, 0.f, 10500.f));
+				px_actorS->addForce(PxVec3(0.f, 0.f, 1000500.f));
 
 				// Sets the Dynamic actor (box that can move) to a kinematic (which doesn't react to forces).
 				//px_actor->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);
