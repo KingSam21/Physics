@@ -17,6 +17,7 @@ namespace PhysicsEngine
 
 	//Create a global counter for measuring the number of simulation steps
 	int counter = 0;
+	int wallHeight = 10;
 
 	///A custom scene class
 	class MyScene : public Scene
@@ -46,7 +47,7 @@ namespace PhysicsEngine
 			plane = new Plane();
 			Add(plane);
 
-			box = new Box(PxTransform(PxVec3(1.5f,3.f,-10.f)));		// PxTransform, sets the inital height of the box.
+			box = new Box(PxTransform(PxVec3(50.f,.5f,0.f)));		// PxTransform, sets the inital height of the box.
 			//Add(box);
 
 			box2 = new Box(PxTransform(PxVec3(0.f, 0.5f, 0.f)));
@@ -68,32 +69,52 @@ namespace PhysicsEngine
 			//Add(box7);
 
 			sphere = new Sphere(PxTransform(PxVec3(11.5f,12.f,-20.f)), FLOAT(5.f), PxReal(1.f));
-			Add(sphere);
+			//Add(sphere);
 
-
+			// Walls
 			for (int i = 0; i <= 10; i += 1) {
-				for (int x = 0; x <= 10; x += 1) {
+				for (int x = 0; x <= wallHeight; x += 1) {
 					brick = new Brick(PxTransform(PxVec3((0.f + i*2 + x%2), (.5f + x), 0.f)));
+					if (x == 0) {
+						brick->Get()->is<PxRigidBody>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);		// Set to Kinematic
+					}
 					Add(brick);
 				}
-				for (int x = 0; x <= 10; x += 1) {
+				for (int x = 0; x <= wallHeight; x += 1) {
 					brick2 = new Brick2(PxTransform(PxVec3((-0.5f), (.5f + x), (0.5f + i * 2 + (x+1) % 2))));
+					if (x == 0) {
+						brick2->Get()->is<PxRigidBody>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);		// Set to Kinematic
+					}
 					Add(brick2);
 				}
-				for (int x = 0; x <= 10; x += 1) {
+				for (int x = 0; x <= wallHeight; x += 1) {
 					brick = new Brick(PxTransform(PxVec3((0.f + i * 2 + (x+1) % 2), (.5f + x), 22.f)));
+					if (x == 0) {
+						brick->Get()->is<PxRigidBody>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);		// Set to Kinematic
+					}
 					Add(brick);
 				}
-				for (int x = 0; x <= 10; x += 1) {
+				for (int x = 0; x <= wallHeight; x += 1) {
 					brick2 = new Brick2(PxTransform(PxVec3((21.5f), (.5f + x), (0.5f + i * 2 + x % 2))));
+					if (x == 0) {
+						brick2->Get()->is<PxRigidBody>()->setRigidBodyFlag(PxRigidBodyFlag::eKINEMATIC, true);		// Set to Kinematic
+					}
 					Add(brick2);
 				}
 			}
 			
+			// Roof
 			for (int i = 0; i <= 13; i += 1) {
-				roof = new Box(PxTransform(PxVec3(10.5f, (11.5f+i), 11.f)), PxVec3((13.f-i),.5f,(13.f-i)), PxReal(.1f));
+				roof = new Box(PxTransform(PxVec3(10.5f, (wallHeight+1.5f+i), 11.f)), PxVec3((13.f-i),.5f,(13.f-i)), PxReal(.1f));
 				Add(roof);
 			}
+
+			// Tower
+			for (int i = 0; i <= 360; i += 30) {
+				brick = new Brick(PxTransform(PxVec3(-5.f, (i%12)*2 + .5f, .0f), PxQuat(i, PxVec3(.0f, 1.0f, .0f))));				//PxQuat rotates the object with (Angle, Axis);
+				Add(brick);
+			}
+			
 			
 
 		}

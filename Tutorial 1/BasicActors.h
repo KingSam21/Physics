@@ -24,7 +24,7 @@ namespace PhysicsEngine
 		// - pose in 0,0,0
 		// - dimensions: 1m x 1m x 1m
 		// - denisty: 1kg/m^3
-		Box(const PxTransform& pose=PxTransform(PxIdentity), PxVec3 dimensions=PxVec3(.5f,.5f,.5f), PxReal density=1.f) 
+		Box(const PxTransform& pose=PxTransform(PxIdentity), PxVec3 dimensions=PxVec3(.5f,.5f,.5f), PxReal density=1.f)
 			: DynamicActor(pose)
 		{ 
 			CreateShape(PxBoxGeometry(dimensions), density);
@@ -68,7 +68,7 @@ namespace PhysicsEngine
 		}
 	};
 
-	///Brick class
+	///Brick2 class
 	class Brick2 : public DynamicActor
 	{
 	public:
